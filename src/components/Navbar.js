@@ -1,12 +1,3 @@
-/**
- * @component NavBar
- * @description Navigation bar with category links
- * 
- * @prop {string} title - Title displayed in the navbar
- * @prop {string} aboutText - Text for about section
- * 
- * @returns {JSX.Element} Navigation bar with category links
- */
 import React from 'react';
 import { Link } from 'react-router-dom';
 

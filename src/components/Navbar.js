@@ -1,49 +1,51 @@
-import React, { Component } from 'react'
+/**
+ * @component NavBar
+ * @description Navigation bar with category links
+ * 
+ * @prop {string} title - Title displayed in the navbar
+ * @prop {string} aboutText - Text for about section
+ * 
+ * @returns {JSX.Element} Navigation bar with category links
+ */
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export class Navbar extends Component {
-
-  render() {
-    return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand" href="/">NewsMonkey</a>
+const Navbar = () => {
+  return (
+    <div>
+      <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+        <Link className="navbar-brand" to="/" style={{ marginLeft: '20px' }}>NEWS App</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-                <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="/business">Business</a>
+              <Link className="nav-link" to="/business">Business</Link>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="/entertainment">Entertainment</a>
+              <Link className="nav-link" to="/entertainment">Entertainment</Link>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="/general">General</a>
+              <Link className="nav-link" to="/health">Health</Link>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="/health">Health</a>
-            </li> 
-            <li className="nav-item">
-                <a className="nav-link" href="/science">Science</a> 
+              <Link className="nav-link" to="/science">Science</Link>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="/sports">Sports</a>
+              <Link className="nav-link" to="/sports">Sports</Link>
             </li>
             <li className="nav-item">
-                <a className="nav-link" href="/technology">Technology</a>   
+              <Link className="nav-link" to="/technology">Technology</Link>
             </li>
-
-            </ul>
+          </ul>
         </div>
-        </nav>
-      </div>
-    )
-  }
-}
+      </nav>
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export default class News extends Component {
     static defaultProps = {
-        country: 'in',
+        country: 'us',
         pageSize: 8,
         category: 'general'
     }
@@ -16,12 +16,12 @@ export default class News extends Component {
     }
     constructor() {
         super();
-        console.log("Hello I am a constructor from News component");
         this.state = {
             articles: [],
             loading: false,
             page: 1,
-            totalResults: 0
+            totalResults: 0,
+            error: null
         };
     }
 
@@ -33,20 +33,26 @@ export default class News extends Component {
         const { country, category, pageSize } = this.props;
         const { page } = this.state;
         let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f83ff72750f04d93ba88b5c4e205418e&page=${page}&pageSize=${pageSize}`;
-        console.log("Fetching news from URL:", url);
         this.setState({ loading: true });
-        let data = await fetch(url);
-        let parsedData = await data.json();
-        console.log("API Response:", parsedData);
-        if (parsedData.status === "ok") {
-            this.setState({
-                articles: parsedData.articles,
-                totalResults: parsedData.totalResults,
-                loading: false
-            });
-        } else {
-            console.error("Error fetching news:", parsedData.message);
-            this.setState({ loading: false });
+        try {
+            let data = await fetch(url);
+            if (!data.ok) {
+                throw new Error(`HTTP error! status: ${data.status}`);
+            }
+            let parsedData = await data.json();
+            if (parsedData.status === "ok") {
+                this.setState({
+                    articles: parsedData.articles,
+                    totalResults: parsedData.totalResults,
+                    loading: false,
+                    error: null
+                });
+            } else {
+                throw new Error(parsedData.message);
+            }
+        } catch (error) {
+            console.error("Error fetching news:", error);
+            this.setState({ loading: false, error: error.message });
         }
     }
 
@@ -61,13 +67,13 @@ export default class News extends Component {
     }
 
     render() {
-        console.log("Rendering articles:", this.state.articles);
         return (
             <div className="container my-3">
                 <h2 className="text-center">News Monkey - Top Headlines</h2>
                 {this.state.loading && <Spinner />}
+                {this.state.error && <div className="alert alert-danger" role="alert">{this.state.error}</div>}
                 <div className="row">
-                    {!this.state.loading && this.state.articles.map((element) => {
+                    {!this.state.loading && !this.state.error && this.state.articles.map((element) => {
                         return (
                             <div className="col-md-4" key={element.url}>
                                 <NewsItem

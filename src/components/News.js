@@ -27,6 +27,7 @@ export default class News extends Component {
     }
 
     async componentDidMount() {
+        this.props.setProgress(10);
         this.fetchNews();
         document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsMonkey`;
     }
@@ -44,6 +45,7 @@ export default class News extends Component {
     fetchNews = async () => {
         const { country, category, pageSize } = this.props;
         const { page } = this.state;
+        this.props.setProgress(30);
         let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f83ff72750f04d93ba88b5c4e205418e&page=${page}&pageSize=${pageSize}`;
         this.setState({ loading: true });
         try {
@@ -52,6 +54,7 @@ export default class News extends Component {
                 throw new Error(`HTTP error! status: ${data.status}`);
             }
             let parsedData = await data.json();
+            this.props.setProgress(70);
             if (parsedData.status === "ok") {
                 this.setState({
                     articles: parsedData.articles,
@@ -66,6 +69,7 @@ export default class News extends Component {
             console.error("Error fetching news:", error);
             this.setState({ loading: false, error: error.message });
         }
+        this.props.setProgress(100);
     }
     
     fetchMoreData = async () => {

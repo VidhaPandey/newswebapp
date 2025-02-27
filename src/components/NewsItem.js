@@ -5,8 +5,8 @@ export default class NewsItem extends Component {
     let { title, description, imageURL, newsURL, author, date, source } = this.props;
     return (
       <div className="my-3">
-        <div className="card">
-          <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{ zIndex: '1', left: '90%' }}>
+        <div className="card" style={{display:'flex',right:"0%"}}>
+          <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{ zIndex: '1'}}> 
             {source}
           </span>
           <img src={imageURL ? imageURL : "https://cdn.mos.cms.futurecdn.net/7NdiZMLZkP6UviNtFGWHJL-1200-80.jpg"} className="card-img-top" alt="..." />
